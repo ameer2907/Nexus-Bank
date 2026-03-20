@@ -1,12 +1,17 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'https://nexus-backend-vw2e.onrender.com';
 
 const api = axios.create({
   baseURL: `${API_BASE_URL}/api`,
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true,
   timeout: 15000,
 });
+
 
 // Request interceptor - attach JWT token
 api.interceptors.request.use(
