@@ -8,7 +8,7 @@ const app = express();
 // ─── CONNECT DATABASE ─────────────────────────────────────────
 connectDB();
 
-// ─── MIDDLEWARE ───────────────────────────────────────────────
+// ─── CORS MIDDLEWARE ─────────────────────────────────────────
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   'http://localhost:5173',
@@ -18,7 +18,6 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    // allow Postman / mobile apps
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
@@ -32,6 +31,10 @@ app.use(cors({
 }));
 
 app.options('*', cors());
+
+// 🔥 ADD THIS (MOST IMPORTANT FIX)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ─── ROUTES ───────────────────────────────────────────────────
 app.use('/api/auth', require('./routes/authRoutes'));
